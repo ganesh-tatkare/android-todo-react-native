@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import Animated, {  FadeInUp, FadeOutDown, Layout, } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeOutDown,
+  Layout,
+} from "react-native-reanimated";
 
 const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
   const handleTaskDel = () => {
@@ -10,7 +14,11 @@ const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
 
   return (
     <View>
-      <Animated.View entering={FadeInUp} exiting={FadeOutDown} layout={Layout.springify() }>
+      <Animated.View
+        entering={FadeInUp}
+        exiting={FadeOutDown}
+        layout={Layout.springify()}
+      >
         <Pressable onLongPress={() => console.log("Long pressed")}>
           <BouncyCheckbox
             style={styles.checkboxStyle}
@@ -22,7 +30,9 @@ const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
             text={task.title}
             iconStyle={{ borderColor: "#989898", borderRadius: 5 }}
             //handling event by writing function
-            onLongPress={handleTaskDel}
+            onLongPress={() => {
+              handleDeleteTask(task.id);
+            }}
             //handling event by passing id using bind method
             onPress={handleCompleteTask.bind(this, task.id)}
           />

@@ -1,17 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  FlatList,
-  Vibration,
-} from "react-native";
-import { Title, Switch, useTheme } from "react-native-paper";
+import { StyleSheet, TextInput, View, FlatList, Vibration } from "react-native";
+import { Title, Switch, useTheme, Text } from "react-native-paper";
 import Tasks from "../components/Tasks";
 import CustomSnackbar from "../components/CustomSnackbar";
-import DropDown from "react-native-paper-dropdown";
+import moment from "moment";
 
 let mockList = [
   {
@@ -44,7 +37,7 @@ export default function Dashboard(props) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: 50,
+      paddingTop: 40,
       paddingHorizontal: 20,
       backgroundColor: colors.background,
     },
@@ -53,6 +46,7 @@ export default function Dashboard(props) {
       height: 50,
       justifyContent: "space-between",
       alignItems: "center",
+      marginBottom:30,
     },
     inputContainer: {
       height: 50,
@@ -74,7 +68,9 @@ export default function Dashboard(props) {
   };
 
   useEffect(() => {
-    getDataAsyncStore().then((response)=>{setTaskList([...response])});
+    getDataAsyncStore().then((response) => {
+      setTaskList([...response]);
+    });
   }, []);
 
   const handleSubmit = () => {
@@ -109,7 +105,7 @@ export default function Dashboard(props) {
       }
     });
     setTaskList([...newList]);
-    storeData([...newList])
+    storeData([...newList]);
     snackbarTimeout;
   };
 
@@ -120,8 +116,8 @@ export default function Dashboard(props) {
     setTaskList((prevList) => {
       return prevList.filter((el) => el.id !== id);
     });
-    let newList = taskList.filter((el)=>el.id!==id);
-    storeData([...newList])
+    let newList = taskList.filter((el) => el.id !== id);
+    storeData([...newList]);
     Vibration.vibrate(100);
     snackbarTimeout;
   };
@@ -156,6 +152,9 @@ export default function Dashboard(props) {
       <View style={styles.titleContainer}>
         <View>
           <Title style={{ color: colors.primary, fontSize: 30 }}>Tasks</Title>
+          <Text variant="titleSmall" style={{color:colors.primary}}>
+            {moment(new Date()).format("dddd, MMM D")}
+          </Text>
         </View>
         <Switch
           value={props.isDark}
