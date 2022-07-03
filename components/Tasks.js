@@ -45,6 +45,7 @@ const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
 const styles = StyleSheet.create({
   checkboxStyle: {
     paddingVertical: 10,
+    paddingRight:30,
   },
 });
 

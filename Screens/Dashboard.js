@@ -33,6 +33,7 @@ export default function Dashboard(props) {
   const [taskList, setTaskList] = useState(mockList);
   const [isSnackbarActive, setSnackbarActive] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
+  const [fact, setFact] = useState("");
 
   const styles = StyleSheet.create({
     container: {
@@ -46,7 +47,7 @@ export default function Dashboard(props) {
       height: 50,
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom:30,
+      marginBottom: 30,
     },
     inputContainer: {
       height: 50,
@@ -63,9 +64,6 @@ export default function Dashboard(props) {
       padding: 10,
     },
   });
-  const handleNewTask = (e) => {
-    setNewTask(e);
-  };
 
   useEffect(() => {
     getDataAsyncStore().then((response) => {
@@ -73,6 +71,32 @@ export default function Dashboard(props) {
     });
   }, []);
 
+  //Fun- Adding random fact at start of list when app starts
+  useEffect(() => {
+    const getFact = async () => {
+      let response = await fetch(
+        "https://uselessfacts.jsph.pl/random.json?language=en"
+      );
+      let data = await response.json();
+      console.log(data);
+      setFact(data.text);
+      let newT = {
+        title: `Fact: ${data.text}`,
+        isComplete: false,
+        id: Math.random().toString(36).substring(2, 7),
+      };
+      setTaskList((prevTaskList) => {
+        return [newT,...prevTaskList];
+      });
+    };
+    getFact();
+  }, []);
+
+  const handleNewTask = (e) => {
+    setNewTask(e);
+  };
+
+  //function to add new task to task list
   const handleSubmit = () => {
     let newT = {
       title: newTask,
@@ -109,6 +133,7 @@ export default function Dashboard(props) {
     snackbarTimeout;
   };
 
+  //function to delete task on long press
   const handleDeleteTask = (id) => {
     clearTimeout(snackbarTimeout);
     setSnackbarContent("Task deleted");
@@ -152,7 +177,7 @@ export default function Dashboard(props) {
       <View style={styles.titleContainer}>
         <View>
           <Title style={{ color: colors.primary, fontSize: 30 }}>Tasks</Title>
-          <Text variant="titleSmall" style={{color:colors.primary}}>
+          <Text variant="titleSmall" style={{ color: colors.primary }}>
             {moment(new Date()).format("dddd, MMM D")}
           </Text>
         </View>
