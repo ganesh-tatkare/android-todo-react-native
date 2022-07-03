@@ -150,7 +150,10 @@ export default function Dashboard(props) {
   //Function for storing task list to local storage
   const storeData = async (value) => {
     try {
-      const jsonValue = JSON.stringify(value);
+      let finalValue = value.filter((el)=>{
+        return !el.title.includes("Fact:")
+      });
+      const jsonValue = JSON.stringify(finalValue);
       await AsyncStorage.setItem("@taskList", jsonValue);
       console.log("Saved successfully");
     } catch (e) {
