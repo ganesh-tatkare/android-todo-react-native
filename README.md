@@ -16,4 +16,4 @@
 - The additional packages used in the app are-
   - react-native-async-storage (for storing tasks in local storage)
   - react-native-paper (for designing the basic layout)
-  - react-native-boncy checkbox (for implementing animated checkbox)
+  - react-native-bouncy checkbox (for implementing animated checkbox)
