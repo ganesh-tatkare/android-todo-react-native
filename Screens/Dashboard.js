@@ -54,6 +54,8 @@ export default function Dashboard(props) {
     },
     scrollContainer: {
       paddingTop: 20,
+      flex:1,
+      flexGrow:1,
     },
     input: {
       backgroundColor: "white",
