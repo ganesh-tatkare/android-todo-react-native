@@ -12,6 +12,7 @@ const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
     handleDeleteTask(task.id);
   };
 
+  console.log("Task in task", task);
   return (
     <View>
       <Animated.View
@@ -27,8 +28,18 @@ const Tasks = ({ task, handleCompleteTask, handleDeleteTask }) => {
             size={25}
             fillColor="#989898"
             unfillColor="#FFFFFF"
-            text={task.title}
-            iconStyle={{ borderColor: "#989898", borderRadius: 5 }}
+            text={`${task.title}`}
+            iconStyle={{
+              borderColor: `${
+                task.priority === "first"
+                  ? "#EC1E1E"
+                  : task.priority === "second"
+                  ? "#C77E16"
+                  : "#1C8719"
+              }`,
+              borderRadius: 5,
+              borderWidth:1.5,
+            }}
             //handling event by writing function
             onLongPress={() => {
               handleDeleteTask(task.id);

@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, View, FlatList, Vibration } from "react-native";
 import { Title, Switch, useTheme, Text } from "react-native-paper";
 import Tasks from "../components/Tasks";
 import CustomSnackbar from "../components/CustomSnackbar";
+import PriorityDialog  from "../components/PriorityDialog";
 import moment from "moment";
 
 let mockList = [
@@ -11,6 +12,7 @@ let mockList = [
     title: "Dummy task added for testing 🙋‍♂️.",
     isComplete: false,
     id: "abq1",
+    priority:"",
   },
 ];
 
@@ -33,6 +35,9 @@ export default function Dashboard(props) {
   const [taskList, setTaskList] = useState(mockList);
   const [isSnackbarActive, setSnackbarActive] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
+  const [priority, setPriority] = useState();
+  const [priorityDialog, setPriorityDialog] = useState(false);
+  console.log(priority)
 
   const styles = StyleSheet.create({
     container: {
@@ -46,7 +51,7 @@ export default function Dashboard(props) {
       height: 50,
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom:30,
+      marginBottom: 30,
     },
     inputContainer: {
       height: 50,
@@ -73,11 +78,16 @@ export default function Dashboard(props) {
     });
   }, []);
 
-  const handleSubmit = () => {
+  const handleOpenDialog = () =>{
+    setPriorityDialog(true);
+  }
+
+  const handleSubmit = (pri) => {
     let newT = {
       title: newTask,
       isComplete: false,
       id: Math.random().toString(36).substring(2, 7),
+      priority:pri,
     };
     setTaskList((prevTaskList) => {
       return [...prevTaskList, newT];
@@ -127,7 +137,7 @@ export default function Dashboard(props) {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@taskList", jsonValue);
-      console.log("Saved successfully");
+      console.log("Saved successfully",value);
     } catch (e) {
       console.error("Error while saving task: ", e);
     }
@@ -152,7 +162,7 @@ export default function Dashboard(props) {
       <View style={styles.titleContainer}>
         <View>
           <Title style={{ color: colors.primary, fontSize: 30 }}>Tasks</Title>
-          <Text variant="titleSmall" style={{color:colors.primary}}>
+          <Text variant="titleSmall" style={{ color: colors.primary }}>
             {moment(new Date()).format("dddd, MMM D")}
           </Text>
         </View>
@@ -168,7 +178,7 @@ export default function Dashboard(props) {
           value={newTask}
           onChangeText={handleNewTask}
           placeholder="Enter todo"
-          onSubmitEditing={handleSubmit}
+          onSubmitEditing={handleOpenDialog}
         />
       </View>
       <View style={styles.scrollContainer}>
@@ -187,6 +197,7 @@ export default function Dashboard(props) {
         />
       </View>
       <CustomSnackbar content={snackbarContent} isActive={isSnackbarActive} />
+      <PriorityDialog handleSubmit={handleSubmit} priorityVisible={priorityDialog} setPriority={setPriority} setPriorityVisible={setPriorityDialog} />
     </View>
   );
 }
