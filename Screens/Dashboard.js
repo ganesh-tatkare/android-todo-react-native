@@ -59,6 +59,7 @@ export default function Dashboard(props) {
     },
     scrollContainer: {
       paddingTop: 20,
+      flex:1,
     },
     input: {
       backgroundColor: "white",
@@ -183,6 +184,7 @@ export default function Dashboard(props) {
       </View>
       <View style={styles.scrollContainer}>
         <FlatList
+          scrollEnabled={true}
           data={taskList}
           renderItem={(itemData) => {
             return (
