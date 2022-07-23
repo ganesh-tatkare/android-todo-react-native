@@ -46,7 +46,7 @@ export default function Dashboard(props) {
       height: 50,
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom:30,
+      marginBottom: 30,
     },
     inputContainer: {
       height: 50,
@@ -55,7 +55,6 @@ export default function Dashboard(props) {
     scrollContainer: {
       paddingTop: 20,
       flex:1,
-      flexGrow:1,
     },
     input: {
       backgroundColor: "white",
@@ -154,7 +153,7 @@ export default function Dashboard(props) {
       <View style={styles.titleContainer}>
         <View>
           <Title style={{ color: colors.primary, fontSize: 30 }}>Tasks</Title>
-          <Text variant="titleSmall" style={{color:colors.primary}}>
+          <Text variant="titleSmall" style={{ color: colors.primary }}>
             {moment(new Date()).format("dddd, MMM D")}
           </Text>
         </View>
@@ -175,6 +174,7 @@ export default function Dashboard(props) {
       </View>
       <View style={styles.scrollContainer}>
         <FlatList
+          scrollEnabled={true}
           data={taskList}
           renderItem={(itemData) => {
             return (
